@@ -1,16 +1,14 @@
-import {SectionTitle} from "@/components/Layout/SectionTitle";
+import {SectionLayoutProps} from "@/components/Layout/types";
 
-interface SectionLayoutProps {
-  title: string,
-  children: React.ReactNode
-}
 
-export const SectionLayout = ({ title, children }: SectionLayoutProps) => {
+export const SectionLayout = ({ header, content }: SectionLayoutProps) => {
   return (
     <div className="bg-[#181920]">
-      <SectionTitle title={title} />
+      <div className='text-xl font-bold'>
+        {header}
+      </div>
       <hr className="border-0 bg-gray-700 h-px w-full"/>
-      {children}
+      {content}
     </div>
   )
 }

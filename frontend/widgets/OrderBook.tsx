@@ -7,16 +7,25 @@ import {SectionLayout} from "@/components/Layout/SectionLayout";
 
 export const OrderBook = ({realtime, buyList, sellList}: OrderBookProps) => {
   return (
-    <SectionLayout title="Order Book">
-      <OrderBookTableHeader />
-      {buyList.map((item) => (
-        <OrderBookItem price={item.price} amount={item.amount} total={item.total} type='buy'/>
-      ))}
-      <OrderBookRealTime type={realtime.type} price={realtime.price} />
-      {sellList.map((item) => (
-        <OrderBookItem price={item.price} amount={item.amount} total={item.total} type='sell'/>
-      ))}
-      <OrderBookCompare buy={100} sell={120} />
+    <SectionLayout
+      header={
+        <div>
+          OrderBook
+        </div>
+      }
+      content={
+        <div>
+          <OrderBookTableHeader />
+          {buyList.map((item) => (
+            <OrderBookItem price={item.price} amount={item.amount} total={item.total} type='buy'/>
+          ))}
+          <OrderBookRealTime type={realtime.type} price={realtime.price} />
+          {sellList.map((item) => (
+            <OrderBookItem price={item.price} amount={item.amount} total={item.total} type='sell'/>
+          ))}
+          <OrderBookCompare buy={100} sell={120} />
+        </div>
+       }>
     </SectionLayout>
   )
 }

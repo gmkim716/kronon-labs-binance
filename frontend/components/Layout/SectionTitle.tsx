@@ -1,6 +1,4 @@
-interface SectionTitleProps {
-  title: string;
-}
+import {SectionTitleProps} from "@/components/Layout/types";
 
 export const SectionTitle = ({title} : SectionTitleProps) => {
   return (

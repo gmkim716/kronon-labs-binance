@@ -1,4 +1,6 @@
-import { OrderBook } from '@/components/OrderBook/OrderBook';
+import {OrderBook} from '@/widgets/OrderBook';
+import {Search} from "@/widgets/Search";
+import BinanceWebSocket from "@/components/Test/BinanceWebSocket";
 
 
 const TEMP_LIST = [
@@ -28,11 +30,20 @@ interface TradePageProps {
   params: {symbol: string}
 }
 
-export default function TradePage({params}: TradePageProps ) {
-  console.log('symbol', params.symbol)
+export default async function TradePage({params}: TradePageProps ) {
+  
+  const symbol = params.symbol;
+  console.log('symbol', symbol)
+  
+  const symbols = [symbol]
+  
   return (
     <div>
+      <BinanceWebSocket symbols={symbols} />
+      
       <OrderBook buyList={TEMP_LIST} sellList={TEMP_LIST} realtime={TEMP_REAL}/>
+    
+      <Search />
     </div>
   );
 }

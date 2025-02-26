@@ -1,7 +1,4 @@
-interface  OrderBookCompareProps {
-  buy: number,
-  sell: number,
-}
+import {OrderBookCompareProps} from "@/components/OrderBook/types";
 
 export const OrderBookCompare = ({buy, sell}:OrderBookCompareProps) => {
   
