@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {ORDERBOOK_DEPTH} from "@/lib/const/OrderBookConsts";
+import {BINANCE_URL, BINANCE_WEBSOCKET, ORDER_BOOK_DEPTH} from "@/lib/consts";
 
 // 주문장 항목 타입 정의
 export interface OrderItem {
@@ -41,7 +41,7 @@ export function useOrderBook(symbol: string, options: UseOrderBookOptions = {}) 
   const [error, setError] = useState<string | null>(null);
   const ws = useRef<WebSocket | null>(null);
   
-  const { depth = ORDERBOOK_DEPTH } = options;
+  const { depth = ORDER_BOOK_DEPTH } = options;
   
   // WebSocket 연결 함수
   const connectWebSocket = useCallback(() => {
@@ -56,7 +56,7 @@ export function useOrderBook(symbol: string, options: UseOrderBookOptions = {}) 
       // 주문장 스트림 구독 - 여기서 형식을 변경합니다
       // @bookTicker는 최고 매수/매도 호가만 제공, @depth는 전체 주문장 제공
       const stream = `${symbol.toLowerCase()}@depth${depth}`;
-      const socketUrl = `wss://stream.binance.com:9443/ws/${stream}`;
+      const socketUrl = `${BINANCE_WEBSOCKET}/${stream}`;
       
       // WebSocket 연결 생성
       ws.current = new WebSocket(socketUrl);
@@ -69,7 +69,7 @@ export function useOrderBook(symbol: string, options: UseOrderBookOptions = {}) 
         // 연결 후 주문장 스냅샷 요청
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
           // REST API로 주문장 스냅샷 가져오기
-          fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol.toUpperCase()}&limit=${depth}`)
+          fetch(`${BINANCE_URL}/depth?symbol=${symbol.toUpperCase()}&limit=${depth}`)
             .then(response => response.json())
             .then(data => {
               // 주문장 초기 데이터 설정

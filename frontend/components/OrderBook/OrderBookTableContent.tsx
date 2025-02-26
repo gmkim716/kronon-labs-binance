@@ -6,11 +6,11 @@ import {OrderBookItem} from "@/components/OrderBook/OrderBookItem";
 import {OrderBookCompare} from "@/components/OrderBook/OrderBookCompare";
 import {useTicker} from "@/lib/hooks/useTicker";
 import {OrderBookRealTime} from "@/components/OrderBook/OrderBookRealTime";
-import {ORDERBOOK_DEPTH} from "@/lib/const/OrderBookConsts";
+import {ORDER_BOOK_DEPTH} from "@/lib/consts";
 
 export const OrderBookContent = ({symbol}: {symbol: string}) => {
   
-  const { bids, asks} = useOrderBook(symbol, {depth: ORDERBOOK_DEPTH})
+  const { bids, asks} = useOrderBook(symbol, {depth: ORDER_BOOK_DEPTH})
   const {ticker, priceDirection} = useTicker(symbol)
   
   return (

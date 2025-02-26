@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import {BINANCE_WEBSOCKET} from "@/lib/consts";
 
 // any 대신 명시적 타입 사용
 type WebSocketData = Record<string, unknown>;
@@ -53,9 +54,9 @@ export function useBinanceWebSocket<T = WebSocketData>(
       
       // 단일 스트림 또는 다중 스트림 처리
       if (typeof streamName === 'string') {
-        socketUrl = `wss://stream.binance.com:9443/ws/${streamName}`;
+        socketUrl = `${BINANCE_WEBSOCKET}/${streamName}`;
       } else if (Array.isArray(streamName) && streamName.length > 0) {
-        socketUrl = `wss://stream.binance.com:9443/ws/${streamName.join('/')}`;
+        socketUrl = `${BINANCE_WEBSOCKET}/${streamName.join('/')}`;
       } else {
         throw new Error('Invalid stream name');
       }

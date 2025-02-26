@@ -1,10 +1,10 @@
 import {useOrderBook} from "@/lib/hooks/useOrderBook";
-import {ORDERBOOK_DEPTH} from "@/lib/const/OrderBookConsts";
+import {ORDER_BOOK_DEPTH} from "@/lib/consts";
 import {OrderBookRatioGraph} from "@/components/OrderBook/OrderBookRatioGraph";
 
 export const OrderBookCompare = ({symbol}:{symbol: string}) => {
   
-  const {askRatio} = useOrderBook(symbol, {depth: ORDERBOOK_DEPTH})
+  const {askRatio} = useOrderBook(symbol, {depth: ORDER_BOOK_DEPTH})
   
   const fBidRatio = (100-askRatio).toFixed(2)
   const fAskRatio = (100-askRatio).toFixed(2)

@@ -1,8 +1,11 @@
+'use client'
+
 import {SearchInput} from "@/components/Search/SearchInput";
 import {SectionLayout} from "@/components/Layout/SectionLayout";
 import {SectionHeaderLayout} from "@/components/Layout/SectionHeaderLayout";
 import {SectionContentLayout} from "@/components/Layout/SectionContentLayout";
 import {SearchItem} from "@/components/Search/SearchItem";
+import {useMarketList} from "@/lib/hooks/useMarketList";
 
 const TEMP_ITEM_LIST = [
   {
@@ -28,20 +31,23 @@ const TEMP_ITEM_LIST = [
 ]
 
 
+
 export const Search = () => {
+  const {markets} = useMarketList()
+
+  console.log(markets)
+  
   return (
     <SectionLayout
       header={
-        <SectionHeaderLayout>
-          Search
-        </SectionHeaderLayout>
+        <SectionHeaderLayout>Search</SectionHeaderLayout>
       }
       content={
         <SectionContentLayout>
           <SearchInput />
-          {TEMP_ITEM_LIST.map((item) => (
-            <SearchItem interest={item.interest} name={item.name} price={item.price} ratio={item.ratio} />
-          ))}
+          {/*{TEMP_ITEM_LIST.map((item) => (*/}
+          {/*  <SearchItem interest={item.interest} name={item.name} price={item.price} ratio={item.ratio} />*/}
+          {/*))}*/}
         </SectionContentLayout>
       }
     />

@@ -1,1 +1,0 @@
-export const ORDERBOOK_DEPTH = 20;

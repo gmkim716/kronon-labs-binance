@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import {BINANCE_URL} from "@/lib/consts";
 
 export function useBinanceTicker(symbol: string) {
   return useQuery({
     queryKey: ['binance-ticker', symbol.toLowerCase()],
     queryFn: async () => {
-      const response = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol.toUpperCase()}`);
+      const response = await fetch(`${BINANCE_URL}/ticker/24hr?symbol=${symbol.toUpperCase()}`);
       if (!response.ok) {
         throw new Error('Failed to fetch ticker data');
       }
