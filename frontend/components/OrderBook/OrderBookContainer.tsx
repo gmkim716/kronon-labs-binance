@@ -2,16 +2,15 @@
 
 import {QueryClientProvider, useQuery, useQueryClient} from "@tanstack/react-query";
 import {OrderBook} from "@/widgets/OrderBook";
-import {useBinanceWebSocket} from "@/lib/hooks/useBinanceWebSocket";
 
 export default function OrderBookContainer({ symbol = "btcusdt" }) {
   const queryClient = useQueryClient();
   
   // 웹 소켓 연결 및 데이터 수신 처리
-  const { isConnected } = useBinanceWebSocket(symbol, (data) => {
-    // 웹소켓에서 받은 데이터로 React Query 캐시 업데이트
-    queryClient.setQueryData(['orderbook', symbol], data);
-  })
+  // const { isConnected } = useBinanceWebSocket(symbol, (data) => {
+  //   // 웹소켓에서 받은 데이터로 React Query 캐시 업데이트
+  //   queryClient.setQueryData(['orderbook', symbol], data);
+  // })
   
   
   // 캐시된 데이터 사용

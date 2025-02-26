@@ -1,6 +1,7 @@
 import {OrderBook} from '@/widgets/OrderBook';
 import {Search} from "@/widgets/Search";
 import BinanceWebSocket from "@/components/Test/BinanceWebSocket";
+import React from "react";
 
 
 const TEMP_LIST = [
@@ -26,24 +27,18 @@ const TEMP_REAL: { type: 'up' | 'down', price: number } = {
   price: 1000,
 }
 
-interface TradePageProps {
-  params: {symbol: string}
-}
 
-export default async function TradePage({params}: TradePageProps ) {
-  
-  const symbol = params.symbol;
-  console.log('symbol', symbol)
-  
-  const symbols = [symbol]
-  
+// next.js 15 버전에 동적 라우팅 방식이 변경된 바가 있음
+export default async function TradePage({params}: { params: Promise<{symbol: string}> }) {
+  const resolvedParams = await params;
+  const symbol = resolvedParams.symbol;
   return (
-    <div>
-      <BinanceWebSocket symbols={symbols} />
+    <>
+      <BinanceWebSocket symbols={[symbol]} />
       
       <OrderBook buyList={TEMP_LIST} sellList={TEMP_LIST} realtime={TEMP_REAL}/>
     
       <Search />
-    </div>
+    </>
   );
 }
