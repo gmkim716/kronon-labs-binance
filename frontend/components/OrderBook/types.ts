@@ -2,19 +2,14 @@ export interface OrderBookItemProps {
   price: number,
   amount: number,
   total: number,
-  type?: 'buy' | 'sell',
+  type?: 'bids' | 'asks',
 }
 
 export interface OrderBookProps {
-  realtime: {
-    type: 'up' | 'down',
-    price: number,
-  },
-  buyList: OrderBookItemProps[],
-  sellList: OrderBookItemProps[],
+  symbol: string,
 }
 
 export interface  OrderBookCompareProps {
-  buy: number,
-  sell: number,
+  bid: number,
+  ask: number,
 }

@@ -1,20 +1,21 @@
 'use client'
 
-import {useTickerStore} from "@/store/useTickerStore";
-
 interface OrderBookRealTimeProps {
-  type: 'up' | 'down',
+  priceDirection: 'up' | 'down' | null,
   price: number,
 }
 
-export const OrderBookRealTime = ({type, price}: OrderBookRealTimeProps) => {
+export const OrderBookRealTime = ({priceDirection, price}: OrderBookRealTimeProps) => {
   
-  const colorClass = type === 'up' ? 'text-red-500' : 'text-green-500';
-  const marker = type === 'up' ?  '⬆' : '⬇';
+  // 색상 표시
+  let colorClass = 'text-white';
+  if (priceDirection === 'up') {
+    colorClass = 'text-green-500';
+  } else if (priceDirection === 'down') {
+    colorClass = 'text-red-500';
+  }
   
-  const {ticker} = useTickerStore();
-  
-  console.log('ticker', ticker['BTCUSDT'])
+  const marker = priceDirection === 'up' ?  '⬆' : '⬇';
   
   return (
     <div className={`flex items-center ${colorClass}`}>

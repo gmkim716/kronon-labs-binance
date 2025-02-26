@@ -1,22 +1,25 @@
-import {OrderBookCompareProps} from "@/components/OrderBook/types";
+import {useOrderBook} from "@/lib/hooks/useOrderBook";
+import {ORDERBOOK_DEPTH} from "@/lib/const/OrderBookConsts";
+import {OrderBookRatioGraph} from "@/components/OrderBook/OrderBookRatioGraph";
 
-export const OrderBookCompare = ({buy, sell}:OrderBookCompareProps) => {
+export const OrderBookCompare = ({symbol}:{symbol: string}) => {
   
-  const total = buy + sell;
+  const {askRatio} = useOrderBook(symbol, {depth: ORDERBOOK_DEPTH})
   
-  if (total == 0) return
-  
-  const buyRatio= buy / total;
-  const fBuyRatio = (buy/total).toFixed(2)
-  const fSellRatio  = (sell/total).toFixed(2)
+  const fBidRatio = (100-askRatio).toFixed(2)
+  const fAskRatio = (100-askRatio).toFixed(2)
   
   return (
-    <div className="flex">
-      <div>B</div>
-      <span className="text-green-500">{fBuyRatio}%</span>
-      buyRatio: {buyRatio}
-      <span className="text-red-500">{fSellRatio}%</span>
-      <div>S</div>
+    <div className="flex items-center">
+      <div>
+        <span>B</span>
+        <span className="text-green-500">{fBidRatio}%</span>
+      </div>
+      <OrderBookRatioGraph askRatio={askRatio} />
+      <div>
+        <span className="text-red-500">{fAskRatio}%</span>
+        <span>S</span>
+      </div>
     </div>
   )
 }
