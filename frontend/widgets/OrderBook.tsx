@@ -1,8 +1,8 @@
-import {OrderBookTableHeader} from "@/components/OrderBook/OrderBookTableHeader";
-import {OrderBookProps} from "@/components/OrderBook/types";
-import {SectionLayout} from "@/components/Layout/SectionLayout";
+import {OrderBookTableHeader} from "@/components/orderBook/OrderBookTableHeader";
+import {OrderBookProps} from "@/components/orderBook/types";
+import {SectionLayout} from "@/components/layout/SectionLayout";
 import React from "react";
-import {OrderBookContent} from "@/components/OrderBook/OrderBookTableContent";
+import {OrderBookContent} from "@/components/orderBook/OrderBookTableContent";
 
 export const OrderBook = ({symbol}: OrderBookProps) => {
 

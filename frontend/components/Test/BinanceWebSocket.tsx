@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useTickerStore } from "@/components/OrderBook/useTickerStore";
+import { useTickerStore } from "@/components/orderBook/useTickerStore";
 
 interface BinanceWebSocketProps {
   symbols: string[]; // 사용할 심볼 리스트 (예: ['btcusdt', 'ethusdt'])

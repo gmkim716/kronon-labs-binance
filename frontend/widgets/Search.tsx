@@ -1,10 +1,10 @@
 'use client'
 
-import {SearchInput} from "@/components/Search/SearchInput";
-import {SectionLayout} from "@/components/Layout/SectionLayout";
-import {SectionHeaderLayout} from "@/components/Layout/SectionHeaderLayout";
-import {SectionContentLayout} from "@/components/Layout/SectionContentLayout";
-import {SearchItem} from "@/components/Search/SearchItem";
+import {SearchInput} from "@/components/search/SearchInput";
+import {SectionLayout} from "@/components/layout/SectionLayout";
+import {SectionHeaderLayout} from "@/components/layout/SectionHeaderLayout";
+import {SectionContentLayout} from "@/components/layout/SectionContentLayout";
+import {SearchItem} from "@/components/search/SearchItem";
 import {useMarketList} from "@/lib/hooks/useMarketList";
 
 export const Search = () => {

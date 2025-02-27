@@ -1,6 +1,6 @@
 import {useOrderBook} from "@/lib/hooks/useOrderBook";
 import {ORDER_BOOK_DEPTH} from "@/lib/consts";
-import {OrderBookRatioGraph} from "@/components/OrderBook/OrderBookRatioGraph";
+import {OrderBookRatioGraph} from "@/components/orderBook/OrderBookRatioGraph";
 
 export const OrderBookCompare = ({symbol}:{symbol: string}) => {
   

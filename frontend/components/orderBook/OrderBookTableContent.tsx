@@ -2,10 +2,10 @@
 
 import {useOrderBook} from "@/lib/hooks/useOrderBook";
 import React from "react";
-import {OrderBookItem} from "@/components/OrderBook/OrderBookItem";
-import {OrderBookCompare} from "@/components/OrderBook/OrderBookCompare";
+import {OrderBookItem} from "@/components/orderBook/OrderBookItem";
+import {OrderBookCompare} from "@/components/orderBook/OrderBookCompare";
 import {useTicker} from "@/lib/hooks/useTicker";
-import {OrderBookRealTime} from "@/components/OrderBook/OrderBookRealTime";
+import {OrderBookRealTime} from "@/components/orderBook/OrderBookRealTime";
 import {ORDER_BOOK_DEPTH} from "@/lib/consts";
 
 export const OrderBookContent = ({symbol}: {symbol: string}) => {

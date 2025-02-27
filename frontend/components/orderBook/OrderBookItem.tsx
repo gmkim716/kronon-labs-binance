@@ -1,5 +1,5 @@
 import {formatNumber} from "@/lib/utils/number-utils";
-import {OrderBookItemProps} from "@/components/OrderBook/types";
+import {OrderBookItemProps} from "@/components/orderBook/types";
 
 
 
