@@ -1,6 +1,6 @@
 'use client'
 
-import {useSearchStore} from "@/store/useSearchStore";
+import {useSearchStore} from "@/components/Search/useSearchStore";
 import {ChangeEvent} from "react";
 
 export const SearchInput = () => {
