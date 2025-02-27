@@ -12,6 +12,7 @@ export interface MarketItem {
   priceChangePercent: number; // 24시간 변동률
   leverage?: string;      // 레버리지 (5x)
   isFavorite?: boolean;   // 즐겨찾기 여부
+  volume?: number;  // 야
 }
 
 // 마켓 목록 필터 옵션
@@ -19,6 +20,15 @@ interface UseMarketListOptions {
   quoteAsset?: string;    // 견적 자산으로 필터링 (USDT, BTC 등)
   onlyFavorites?: boolean; // 즐겨찾기만 표시
 }
+
+interface TickerData {
+  symbol: string;
+  lastPrice: string;
+  priceChangePercent: string;
+  volume: string;
+  [key: string]: any;     // 기타 속성
+}
+
 
 /**
  * 바이낸스 마켓 목록을 가져오는 훅
@@ -50,16 +60,16 @@ export function useMarketList(options: UseMarketListOptions = {}) {
         // 마켓 데이터 처리
         const processedMarkets = tickerData
           // 필요한 심볼 필터링
-          .filter((ticker: any) => ticker.symbol.endsWith(quoteAsset))
+          .filter((ticker: TickerData) => ticker.symbol.endsWith(quoteAsset))
           // 데이터 변환
-          .map((ticker: any) => {
+          .map((ticker: TickerData) => {
             // 심볼에서 기초 자산 추출 (BTCUSDT -> BTC)
             const baseAsset = ticker.symbol.replace(quoteAsset, '');
             
             // 심볼 메타데이터 찾기
-            const symbolInfo = exchangeInfo.symbols.find(
-              (s: any) => s.symbol === ticker.symbol
-            );
+            // const symbolInfo = exchangeInfo.symbols.find(
+            //   (s: any) => s.symbol === ticker.symbol
+            // );
             
             // 레버리지 정보 (실제로는 다른 API에서 가져와야 할 수 있음)
             const leverage = '5x'; // 예시 데이터

@@ -7,35 +7,12 @@ import {SectionContentLayout} from "@/components/Layout/SectionContentLayout";
 import {SearchItem} from "@/components/Search/SearchItem";
 import {useMarketList} from "@/lib/hooks/useMarketList";
 
-const TEMP_ITEM_LIST = [
-  {
-    interest: true,
-    name: 'temp1',
-    price: 100000,
-    times: 5,
-    ratio: 13.11
-  },
-  {
-    interest: false,
-    name: 'temp2',
-    price: 12.323,
-    ratio: 55412312315.1111123,
-    times: 2,
-  },
-  {
-    interest: true,
-    name: 'temp1',
-    price: 10.000000000000,
-    ratio: 10.231
-  },
-]
-
-
-
 export const Search = () => {
   const {markets} = useMarketList()
-
-  console.log(markets)
+  
+  // todo: 상위 n개만 먼저 렌더링, 동작 시에 이벤트로 로드 해서 성능 최적화 방법 고민하기
+  // todo: react query 사용으로 고민해보자
+  // const slicedMarkets = markets?.slice(0, 10);
   
   return (
     <SectionLayout
@@ -45,9 +22,16 @@ export const Search = () => {
       content={
         <SectionContentLayout>
           <SearchInput />
-          {/*{TEMP_ITEM_LIST.map((item) => (*/}
-          {/*  <SearchItem interest={item.interest} name={item.name} price={item.price} ratio={item.ratio} />*/}
-          {/*))}*/}
+          {markets.map((item) => (
+            <SearchItem
+              baseAsset={item.baseAsset}
+              isFavorite={item.isFavorite}
+              leverage={item.leverage}
+              lastPrice={item.lastPrice}
+              priceChangePercent={item.priceChangePercent}
+              volume={item.volume}
+            />
+          ))}
         </SectionContentLayout>
       }
     />
