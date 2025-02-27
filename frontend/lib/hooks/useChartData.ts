@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState, useEffect, useCallback } from 'react'
-import { binanceApi, websocketStreams } from '@/api/binanceApi'
+import { binanceApi, websocketStreams } from '@/apis/binanceApi'
 
 export interface KlineData {
   time: number

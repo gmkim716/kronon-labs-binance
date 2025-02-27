@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {BINANCE_WEBSOCKET} from "@/lib/consts";
+import {BINANCE_WEBSOCKET} from "../constants";
 
 // any 대신 명시적 타입 사용
 type WebSocketData = Record<string, unknown>;
@@ -16,6 +16,13 @@ interface UseBinanceWebSocketOptions {
   onError?: (error: WebSocketErrorEvent) => void;
 }
 
+
+/**
+ * Binance 거래소의 WebSocket API와 연결하고 데이터를 수신합니다
+ * @param streamName
+ * @param onData
+ * @param options
+ */
 export function useBinanceWebSocket<T = WebSocketData>(
   streamName: string | string[],
   onData: WebSocketCallback<T>,

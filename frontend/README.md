@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Binance API를 이용한 코인 거래 창 구성하기 
 
-## Getting Started
+## 주요 구현 목표 
 
-First, run the development server:
+- 코인 상품 검색, 리스트 
+- 호가 창
+- 코인 그래프
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+참고: https://www.binance.com/en/trade/BTC_USDT?type=spot
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 
 
-You can start editing the page by modifying `app/page.jsx`. The page auto-updates as you edit the file.
+## 후기
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+회사 업무로는 주로 Next.js 13 (page router) 방식으로 진행했습니다. 구현 목표에 맞춰 Next.js 15 버전, app router 방식을 다루면서 14에서와 달라진 부분을 일부 경험할 수 있었습니다.
 
-## Learn More
+- 동적라우팅 방식에 차이가 있는 것을 확인
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+SSR 컴포넌트에서의 fetch와 tanstack query의 사용법 분리에 대해 생각해 볼 수 있었습니다. 

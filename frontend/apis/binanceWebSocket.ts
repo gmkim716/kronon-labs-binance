@@ -1,78 +1,5 @@
-import axios from 'axios'
-import {BINANCE_URL, BINANCE_WEBSOCKET} from "@/lib/consts";
+import {BINANCE_WEBSOCKET} from "@/lib/constants";
 
-export const binanceApi = {
-  // Get exchange information (all trading pairs)
-  getExchangeInfo: async () => {
-    const response = await axios.get(`${BINANCE_URL}/exchangeInfo`)
-    return response.data
-  },
-  
-  // Get ticker price for all symbols or a specific symbol
-  getTickerPrice: async (symbol?: string) => {
-    const url = symbol
-      ? `${BINANCE_URL}/ticker/price?symbol=${symbol}`
-      : `${BINANCE_URL}/ticker/price`
-    const response = await axios.get(url)
-    return response.data
-  },
-  
-  // Get 24hr ticker statistics
-  get24hrStats: async (symbol?: string) => {
-    const url = symbol
-      ? `${BINANCE_URL}/ticker/24hr?symbol=${symbol}`
-      : `${BINANCE_URL}/ticker/24hr`
-    const response = await axios.get(url)
-    return response.data
-  },
-  
-  // Get order book for a specific symbol
-  getOrderBook: async (symbol: string, limit: number = 20) => {
-    const response = await axios.get(`${BINANCE_URL}/depth?symbol=${symbol}&limit=${limit}`)
-    return response.data
-  },
-  
-  // Get klines (candlestick data)
-  getKlines: async (symbol: string, interval: string, limit: number = 500) => {
-    const response = await axios.get(
-      `${BINANCE_URL}/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`
-    )
-    return response.data
-  },
-  
-  // Get latest trades
-  getTrades: async (symbol: string, limit: number = 500) => {
-    const response = await axios.get(
-      `${BINANCE_URL}/trades?symbol=${symbol}&limit=${limit}`
-    )
-    return response.data
-  },
-  
-  // Get aggregated trades
-  getAggTrades: async (symbol: string, limit: number = 500) => {
-    const response = await axios.get(
-      `${BINANCE_URL}/aggTrades?symbol=${symbol}&limit=${limit}`
-    )
-    return response.data
-  },
-  
-  // Get current average price
-  getAvgPrice: async (symbol: string) => {
-    const response = await axios.get(`${BINANCE_URL}/avgPrice?symbol=${symbol}`)
-    return response.data
-  },
-  
-  // Get top bid/ask prices and quantities
-  getBookTicker: async (symbol?: string) => {
-    const url = symbol
-      ? `${BINANCE_URL}/ticker/bookTicker?symbol=${symbol}`
-      : `${BINANCE_URL}/ticker/bookTicker`
-    const response = await axios.get(url)
-    return response.data
-  }
-}
-
-// WebSocket connections
 export const createWebSocketConnection = (endpoint: string, callback: (data: any) => void) => {
   const ws = new WebSocket(`${BINANCE_WEBSOCKET}/${endpoint}`)
   
@@ -165,18 +92,4 @@ export const websocketStreams = {
       getStatus: () => ws.readyState,
     }
   }
-}
-
-// Constants for available intervals
-export const klineIntervals = [
-  '1m', '3m', '5m', '15m', '30m',   // minutes
-  '1h', '2h', '4h', '6h', '8h', '12h',  // hours
-  '1d', '3d',  // days
-  '1w',        // week
-  '1M'         // month
-]
-
-// Helper to format symbol
-export const formatSymbol = (symbol: string): string => {
-  return symbol.toUpperCase()
 }

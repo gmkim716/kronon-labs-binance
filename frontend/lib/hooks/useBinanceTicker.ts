@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import {BINANCE_URL} from "@/lib/consts";
+import {BINANCE_URL} from "../constants";
 
+
+/**
+ * 특정 심볼의 24시간 거래 정보를 가져옵니다 
+ * @param symbol
+ */
 export function useBinanceTicker(symbol: string) {
   return useQuery({
     queryKey: ['binance-ticker', symbol.toLowerCase()],

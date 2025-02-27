@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {BINANCE_URL, BINANCE_WEBSOCKET, ORDER_BOOK_DEPTH} from "@/lib/consts";
+import {BINANCE_URL, BINANCE_WEBSOCKET, ORDER_BOOK_DEPTH} from "../constants";
 
 // 주문장 항목 타입 정의
 export interface OrderItem {

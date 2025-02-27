@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {BINANCE_URL} from "@/lib/consts";
+import {BINANCE_URL} from "../constants";
 
 // 마켓 항목 타입 정의
 export interface MarketItem {

@@ -6,7 +6,7 @@ import {OrderBookItem} from "@/components/orderBook/OrderBookItem";
 import {OrderBookCompare} from "@/components/orderBook/OrderBookCompare";
 import {useTicker} from "@/lib/hooks/useTicker";
 import {OrderBookRealTime} from "@/components/orderBook/OrderBookRealTime";
-import {ORDER_BOOK_DEPTH} from "@/lib/consts";
+import {ORDER_BOOK_DEPTH} from "../../lib/constants";
 
 export const OrderBookContent = ({symbol}: {symbol: string}) => {
   
