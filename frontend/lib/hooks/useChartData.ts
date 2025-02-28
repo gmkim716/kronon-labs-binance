@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {Time} from "lightweight-charts";
 
 // 1) 봉(캔들) 데이터 타입
 export interface CandleData {
-  time: number;  // 초 단위 timestamp (Lightweight Charts 권장)
+  time: Time;  // 초 단위 timestamp (Lightweight Charts 권장)
   open: number;
   high: number;
   low: number;
@@ -82,7 +83,7 @@ export function useChartData(symbol: string, interval: string, limit: number): U
               const k = msg.k;
               // 진행 중인 봉 (time이 같으면 교체, 크면 새 봉)
               const newCandle: CandleData = {
-                time: k.t / 1000,
+                time: k.t,
                 open: parseFloat(k.o),
                 high: parseFloat(k.h),
                 low: parseFloat(k.l),

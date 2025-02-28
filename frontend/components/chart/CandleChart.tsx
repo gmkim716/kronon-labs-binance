@@ -9,12 +9,12 @@ import {
   HistogramSeries,
   LineSeries,
   LineStyle,
-  PriceScaleMode
+  PriceScaleMode, Time
 } from "lightweight-charts";
 import {useChartData} from "@/lib/hooks/useChartData";
 
 interface ChartDataPoint {
-  time: number;  // 타임스탬프
+  time: Time;  // 타임스탬프
   open: number;  // 시가
   high: number;  // 고가
   low: number;   // 저가
@@ -23,7 +23,7 @@ interface ChartDataPoint {
 }
 
 interface MAData {
-  time: number;
+  time: Time;
   value: number;
 }
 
@@ -33,6 +33,9 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
   
   // REST + WebSocket으로 봉 데이터 가져오는 훅
   const { candles, isLoading, error } = useChartData(symbol, interval, 100);
+  // const {dailyData} = useDailyKlines(symbol, 100)
+  
+  // console.log('dailyData', dailyData)
   
   // 참조(차트 개체, DOM 컨테이너 등)
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -213,7 +216,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
         const amplitude = ((lastData.high - lastData.low) / lastData.low) * 100;
 
         setCurrentOHLC({
-          time: lastData.time,
+          time: lastData.time.toString(),
           open: lastData.open,
           high: lastData.high,
           low: lastData.low,
@@ -231,7 +234,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
           param.point !== undefined &&
           param.seriesData.size !== 0
         ) {
-          const candleData = param.seriesData.get(candleSeries) as ChartDataPoint;
+          const candleData = param.seriesData.get(candleSeries) as unknown as ChartDataPoint;
 
           if (candleData) {
             const change = candleData.close - candleData.open;
@@ -239,7 +242,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
             const amplitude = ((candleData.high - candleData.low) / candleData.low) * 100;
 
             setCurrentOHLC({
-              time: candleData.time,
+              time: candleData.time.toString(),
               open: candleData.open,
               high: candleData.high,
               low: candleData.low,
