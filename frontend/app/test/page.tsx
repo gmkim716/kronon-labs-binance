@@ -1,4 +1,4 @@
-import {CandleChart} from "@/components/charts/CandleChart";
+import {CandleChart} from "@/components/chart/CandleChart";
 import {binanceApi} from "@/apis/binanceApi";
 import React from "react";
 import {transformKlineToChartData} from "@/lib/utils";
@@ -11,7 +11,7 @@ export default async function TestPage() {
   if (!data) return;
   
   
-  const chartData = data.map(kline => transformKlineToChartData(kline));
+  const chartData = data.map((kline: any[]) => transformKlineToChartData(kline));
   
   
   return (

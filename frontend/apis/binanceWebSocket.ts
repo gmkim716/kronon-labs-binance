@@ -1,95 +1,96 @@
-import {BINANCE_WEBSOCKET} from "@/lib/constants";
+import { BINANCE_WEBSOCKET } from "@/lib/constants";
 
+// WebSocket 연결을 생성하는 함수
 export const createWebSocketConnection = (endpoint: string, callback: (data: any) => void) => {
-  const ws = new WebSocket(`${BINANCE_WEBSOCKET}/${endpoint}`)
+  const ws = new WebSocket(`${BINANCE_WEBSOCKET}/${endpoint}`);
   
   ws.onopen = () => {
-    console.log(`WebSocket connected: ${endpoint}`)
-  }
+    console.log(`WebSocket 연결 완료: ${endpoint}`);
+  };
   
   ws.onmessage = (event) => {
-    const data = JSON.parse(event.data)
-    callback(data)
-  }
+    const data = JSON.parse(event.data);
+    callback(data);
+  };
   
   ws.onerror = (error) => {
-    console.error(`WebSocket error: ${endpoint}`, error)
-  }
+    console.error(`WebSocket 에러 발생: ${endpoint}`, error);
+  };
   
   ws.onclose = () => {
-    console.log(`WebSocket closed: ${endpoint}`)
-  }
+    console.log(`WebSocket 연결 종료: ${endpoint}`);
+  };
   
   return {
     close: () => ws.close(),
     getStatus: () => ws.readyState,
-  }
-}
+  };
+};
 
-// WebSocket subscription factories
+// WebSocket 구독 생성자(팩토리) 모음
 export const websocketStreams = {
-  // Subscribe to ticker updates
+  // 티커(Ticker) 업데이트를 구독
   subscribeToTicker: (symbol: string, callback: (data: any) => void) => {
-    const lowercaseSymbol = symbol.toLowerCase()
-    return createWebSocketConnection(`${lowercaseSymbol}@ticker`, callback)
+    const lowercaseSymbol = symbol.toLowerCase();
+    return createWebSocketConnection(`${lowercaseSymbol}@ticker`, callback);
   },
   
-  // Subscribe to order book updates
+  // 주문장(Order Book) 업데이트를 구독
   subscribeToOrderBook: (symbol: string, callback: (data: any) => void) => {
-    const lowercaseSymbol = symbol.toLowerCase()
-    return createWebSocketConnection(`${lowercaseSymbol}@depth`, callback)
+    const lowercaseSymbol = symbol.toLowerCase();
+    return createWebSocketConnection(`${lowercaseSymbol}@depth`, callback);
   },
   
-  // Subscribe to kline/candlestick updates
+  // K라인(캔들스틱) 업데이트를 구독
   subscribeToKlines: (symbol: string, interval: string, callback: (data: any) => void) => {
-    const lowercaseSymbol = symbol.toLowerCase()
-    return createWebSocketConnection(`${lowercaseSymbol}@kline_${interval}`, callback)
+    const lowercaseSymbol = symbol.toLowerCase();
+    return createWebSocketConnection(`${lowercaseSymbol}@kline_${interval}`, callback);
   },
   
-  // Subscribe to trade updates
+  // 거래(Trade) 업데이트를 구독
   subscribeToTrades: (symbol: string, callback: (data: any) => void) => {
-    const lowercaseSymbol = symbol.toLowerCase()
-    return createWebSocketConnection(`${lowercaseSymbol}@trade`, callback)
+    const lowercaseSymbol = symbol.toLowerCase();
+    return createWebSocketConnection(`${lowercaseSymbol}@trade`, callback);
   },
   
-  // Subscribe to aggregate trade updates
+  // 묶음 거래(Aggregate Trade) 업데이트를 구독
   subscribeToAggTrades: (symbol: string, callback: (data: any) => void) => {
-    const lowercaseSymbol = symbol.toLowerCase()
-    return createWebSocketConnection(`${lowercaseSymbol}@aggTrade`, callback)
+    const lowercaseSymbol = symbol.toLowerCase();
+    return createWebSocketConnection(`${lowercaseSymbol}@aggTrade`, callback);
   },
   
-  // Subscribe to multiple streams at once
+  // 여러 스트림을 동시에 구독
   subscribeToMultipleStreams: (streams: string[], callback: (data: any) => void) => {
-    const endpoint = streams.join('/')
-    return createWebSocketConnection(endpoint, callback)
+    const endpoint = streams.join('/');
+    return createWebSocketConnection(endpoint, callback);
   },
   
-  // Create a combined stream connection (method used in Binance API)
+  // 결합(Combined) 스트림 생성 (Binance API에서 사용되는 방식)
   createCombinedStream: (streams: string[], callback: (data: any) => void) => {
-    // For combined streams, Binance uses a different endpoint structure
-    const wsUrl = `${BINANCE_WEBSOCKET}/stream?streams=${streams.join('/')}`
-    const ws = new WebSocket(wsUrl)
+    // 결합 스트림의 경우, Binance는 다른 엔드포인트 구조를 사용함
+    const wsUrl = `${BINANCE_WEBSOCKET}/stream?streams=${streams.join('/')}`;
+    const ws = new WebSocket(wsUrl);
     
     ws.onopen = () => {
-      console.log('Combined WebSocket connected')
-    }
+      console.log('결합 WebSocket 연결 완료');
+    };
     
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      callback(data)
-    }
+      const data = JSON.parse(event.data);
+      callback(data);
+    };
     
     ws.onerror = (error) => {
-      console.error('Combined WebSocket error:', error)
-    }
+      console.error('결합 WebSocket 에러 발생:', error);
+    };
     
     ws.onclose = () => {
-      console.log('Combined WebSocket closed')
-    }
+      console.log('결합 WebSocket 연결 종료');
+    };
     
     return {
       close: () => ws.close(),
       getStatus: () => ws.readyState,
-    }
-  }
-}
+    };
+  },
+};
