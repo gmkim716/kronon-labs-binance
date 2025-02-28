@@ -1,4 +1,4 @@
-import {SectionTitleProps} from "@/components/layout/types";
+import { SectionTitleProps} from "@/components/layout/types";
 
 export const SectionTitle = ({title} : SectionTitleProps) => {
   return (

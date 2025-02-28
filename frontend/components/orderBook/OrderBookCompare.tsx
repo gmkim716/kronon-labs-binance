@@ -1,5 +1,5 @@
 import {useOrderBook} from "@/lib/hooks/useOrderBook";
-import {ORDER_BOOK_DEPTH} from "../../lib/constants";
+import {COLOR, ORDER_BOOK_DEPTH} from "../../lib/constants";
 import {OrderBookRatioGraph} from "@/components/orderBook/OrderBookRatioGraph";
 
 export const OrderBookCompare = ({symbol}:{symbol: string}) => {
@@ -13,11 +13,11 @@ export const OrderBookCompare = ({symbol}:{symbol: string}) => {
     <div className="flex items-center">
       <div>
         <span>B</span>
-        <span className="text-green-500">{fBidRatio}%</span>
+        <span style={{color: COLOR.BUY_COLOR}}>{fBidRatio}%</span>
       </div>
       <OrderBookRatioGraph askRatio={askRatio} />
       <div>
-        <span className="text-red-500">{fAskRatio}%</span>
+        <span style={{color: COLOR.SELL_COLOR}}>{fAskRatio}%</span>
         <span>S</span>
       </div>
     </div>

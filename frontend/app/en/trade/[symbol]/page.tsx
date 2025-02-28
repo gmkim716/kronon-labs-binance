@@ -13,7 +13,7 @@ export default async function TradePage({params}: { params: Promise<{symbol: str
       
       <Chart symbol={symbol} />
       
-      {/*<Search />*/}
+      <Search />
     </div>
   );
 }

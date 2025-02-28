@@ -83,7 +83,7 @@ export function useChartData(symbol: string, interval: string, limit: number): U
               const k = msg.k;
               // 진행 중인 봉 (time이 같으면 교체, 크면 새 봉)
               const newCandle: CandleData = {
-                time: k.t,
+                time: k.t / 1000 as Time,
                 open: parseFloat(k.o),
                 high: parseFloat(k.h),
                 low: parseFloat(k.l),
