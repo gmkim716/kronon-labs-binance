@@ -11,9 +11,10 @@ import {
   LineStyle,
   PriceScaleMode
 } from "lightweight-charts";
+import {useChartData} from "@/lib/hooks/useChartData";
 
 interface ChartDataPoint {
-  time: string;  // 'YYYY-MM-DD' 형식의 날짜 문자열
+  time: number;  // 타임스탬프
   open: number;  // 시가
   high: number;  // 고가
   low: number;   // 저가
@@ -22,7 +23,7 @@ interface ChartDataPoint {
 }
 
 interface MAData {
-  time: string;
+  time: number;
   value: number;
 }
 
@@ -30,8 +31,14 @@ type ChartData = ChartDataPoint[];
 
 export const CandleChart = ({ historicalData, symbol, interval }: { historicalData: ChartData, symbol: string, interval: string }) => {
   
+  // REST + WebSocket으로 봉 데이터 가져오는 훅
+  const { candles, isLoading, error } = useChartData(symbol, interval, 100);
+  
+  // 참조(차트 개체, DOM 컨테이너 등)
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<ReturnType<typeof createChart> | null>(null);
+  
+  // OHLC 상태
   const [currentOHLC, setCurrentOHLC] = useState({
     time: '',
     open: 0,
@@ -42,11 +49,6 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
     changePercent: 0,
     amplitude: 0
   });
-
-  
-  //
-  
-  //
   
   // 차트에 사용할 MA 설정
   const maSettings = [
@@ -56,16 +58,16 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
   ];
   
   // 이동평균 계산 함수
-  const calculateMA = (historicalData: ChartData, period: number): MAData[] => {
+  const calculateMA = (candles: ChartData, period: number): MAData[] => {
     const result: MAData[] = [];
     
-    for (let i = period - 1; i < historicalData.length; i++) {
-      const sum = historicalData
+    for (let i = period - 1; i < candles.length; i++) {
+      const sum = candles
         .slice(i - period + 1, i + 1)
         .reduce((total, item) => total + item.close, 0);
       
       result.push({
-        time: historicalData[i].time,
+        time: candles[i].time,
         value: sum / period
       });
     }
@@ -73,9 +75,9 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
     return result;
   };
   
-  // 거래량 데이터 생성 (원본 데이터에 volume이 없을 경우 임의로 생성)
-  const generateVolumeData = (historicalData: ChartData) => {
-    return historicalData.map(item => ({
+  // 거래량 데이터 생성 (원본 데이터에 volume이 없을 경우 임의로 생성)  // todo: 필요한걸까
+  const generateVolumeData = (candles: ChartData) => {
+    return candles.map(item => ({
       time: item.time,
       value: item.volume || Math.abs(item.close - item.open) * (1000 + Math.random() * 5000),
       color: item.close >= item.open ? 'rgba(0, 150, 136, 0.8)' : 'rgba(255, 82, 82, 0.8)'
@@ -83,7 +85,8 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
   };
   
   useEffect(() => {
-    if (chartContainerRef.current && historicalData && historicalData.length > 0) {
+    
+    if (chartContainerRef.current && candles && candles.length > 0) {
       // 기존 차트 정리
       if (chartRef.current) {
         chartRef.current.remove();
@@ -150,7 +153,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
         priceScaleId: 'right',
       });
       
-      candleSeries.setData(historicalData);
+      candleSeries.setData(candles);
 
       // // MA 선 추가
       // const maLines = maSettings.map(ma => {
@@ -160,10 +163,10 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
       //     priceScaleId: 'right',
       //   });
       //
-      //   const maData = calculateMA(historicalData, ma.period);
+      //   const maData = calculateMA(candles, ma.period);
       //   line.setData(maData);
       //
-      //   return { period: ma.period, series: line, historicalData: maData };
+      //   return { period: ma.period, series: line, candles: maData };
       // });
 
       // 거래량 차트 추가 (메인 차트 아래에)
@@ -175,7 +178,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
         priceScaleId: 'volume',
       });
 
-      const volumeData = generateVolumeData(historicalData);
+      const volumeData = generateVolumeData(candles);
       volumeSeries.setData(volumeData);
 
       // 볼륨 스케일 설정
@@ -189,8 +192,8 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
       // 트렌드 라인 추가 (예: 상향 추세선)
       // 데이터의 최소/최대값 찾기
       const trendLineData = [
-        { time: historicalData[Math.floor(historicalData.length * 0.1)].time, value: historicalData[Math.floor(historicalData.length * 0.1)].low * 0.98 },
-        { time: historicalData[Math.floor(historicalData.length * 0.9)].time, value: historicalData[Math.floor(historicalData.length * 0.5)].high * 1.02 }
+        { time: candles[Math.floor(candles.length * 0.1)].time, value: candles[Math.floor(candles.length * 0.1)].low * 0.98 },
+        { time: candles[Math.floor(candles.length * 0.9)].time, value: candles[Math.floor(candles.length * 0.5)].high * 1.02 }
       ];
 
       const trendLine = chart.addSeries(LineSeries, {
@@ -203,8 +206,8 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
       trendLine.setData(trendLineData);
 
       // 초기 OHLC 정보 설정 (마지막 데이터)
-      if (historicalData.length > 0) {
-        const lastData = historicalData[historicalData.length - 1];
+      if (candles.length > 0) {
+        const lastData = candles[candles.length - 1];
         const change = lastData.close - lastData.open;
         const changePercent = ((change / lastData.open) * 100);
         const amplitude = ((lastData.high - lastData.low) / lastData.low) * 100;
@@ -272,16 +275,16 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
         }
       };
     }
-  }, [historicalData]);
+  }, [candles]);
 
   // 추가 데이터 계산 (예: MA값)
   const calculateMAValues = () => {
-    if (!historicalData || historicalData.length === 0) return {};
+    if (!candles || candles.length === 0) return {};
 
     const result: {[key: string]: number} = {};
 
     maSettings.forEach(ma => {
-      const maData = calculateMA(historicalData, ma.period);
+      const maData = calculateMA(candles, ma.period);
       if (maData.length > 0) {
         result[`MA(${ma.period})`] = parseFloat(maData[maData.length - 1].value.toFixed(2));
       }
@@ -294,15 +297,15 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
 
   // 볼륨 데이터 계산
   const getVolumeInfo = () => {
-    if (!historicalData || historicalData.length === 0) return { BTC: "0", USD: "0" };
+    if (!candles || candles.length === 0) return { BTC: "0", USD: "0" };
 
     // 마지막 데이터 기준 볼륨 (원본 데이터에 없으면 임의 생성)
-    const volume = historicalData[historicalData.length - 1].volume ||
-      Math.abs(historicalData[historicalData.length - 1].close - historicalData[historicalData.length - 1].open) * 3000;
+    const volume = candles[candles.length - 1].volume ||
+      Math.abs(candles[candles.length - 1].close - candles[candles.length - 1].open) * 3000;
 
     return {
       BTC: (volume / 1000).toFixed(3) + "K",
-      USD: ((volume / 1000) * historicalData[historicalData.length - 1].close / 1000).toFixed(3) + "K"
+      USD: ((volume / 1000) * candles[candles.length - 1].close / 1000).toFixed(3) + "K"
     };
   }
 
@@ -310,7 +313,6 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
   
   return (
     <div className="relative text-white">
-       OHLC 정보를 좌상단에 위치시키기 위한 절대 위치 설정
       <div className="absolute top-0 left-0 z-10 bg-[#16171D]/80 pt-2 pl-2 pr-6 pb-1 text-sm">
         <div className="flex flex-box items-center space-x-1 mb-1">
           <span className="text-gray-400">{currentOHLC.time}</span>
@@ -341,7 +343,7 @@ export const CandleChart = ({ historicalData, symbol, interval }: { historicalDa
         
         {/* 현재 가격 태그 (우측) */}
         {/*<div className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#26A69A] text-white py-1 px-3 rounded text-sm">*/}
-        {/*  {historicalData.length > 0 ? historicalData[historicalData.length - 1].close.toFixed(2) : '0.00'}*/}
+        {/*  {candles.length > 0 ? historicalData[historicalData.length - 1].close.toFixed(2) : '0.00'}*/}
         {/*</div>*/}
       </div>
     </div>

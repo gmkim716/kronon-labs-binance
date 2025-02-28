@@ -1,152 +1,143 @@
-'use client'
+"use client";
 
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState, useEffect, useCallback } from 'react'
-import { binanceApi, websocketStreams } from '@/apis/binanceApi'
+import { useEffect, useState } from "react";
 
-export interface KlineData {
-  time: number
-  open: number
-  high: number
-  low: number
-  close: number
-  volume: number
+// 1) 봉(캔들) 데이터 타입
+export interface CandleData {
+  time: number;  // 초 단위 timestamp (Lightweight Charts 권장)
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
 }
 
-export interface ChartDataHookResult {
-  data: KlineData[]
-  isLoading: boolean
-  isError: boolean
-  error: Error | null
-  refetch: () => Promise<any>
+// 2) 반환되는 훅 결과
+interface UseChartDataResult {
+  candles: CandleData[];
+  isLoading: boolean;
+  error: string | null;
 }
 
-const useChartData = (
-  symbol: string,
-  interval: string = '1d',
-  limit: number = 200
-): ChartDataHookResult => {
-  const queryClient = useQueryClient()
+/**
+ * 심볼(symbol), 인터벌(interval), 개수(limit)를 받아
+ *  1) REST로 과거 봉 데이터를 가져오고
+ *  2) WebSocket으로 새 봉/진행 중 봉을 실시간 업데이트
+ * 를 하나로 관리하는 훅
+ */
+export function useChartData(symbol: string, interval: string, limit: number): UseChartDataResult {
+  const [candles, setCandles] = useState<CandleData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Transform raw kline data to the format used by the chart
-  const transformKlineData = useCallback((data: any[]): KlineData[] => {
-    return data.map((item: any[]) => ({
-      time: item[0] / 1000, // Convert from milliseconds to seconds
-      open: parseFloat(item[1]),
-      high: parseFloat(item[2]),
-      low: parseFloat(item[3]),
-      close: parseFloat(item[4]),
-      volume: parseFloat(item[5])
-    }))
-  }, [])
-  
-  // React Query hook for fetching historical data
-  const {
-    data: rawData,
-    isLoading,
-    isError,
-    error,
-    refetch
-  } = useQuery({
-    queryKey: ['klines', symbol, interval, limit],
-    queryFn: async () => {
-      const data = await binanceApi.getKlines(symbol, interval, limit)
-      return transformKlineData(data)
-    },
-    staleTime: 30 * 1000, // Consider data fresh for 30 seconds
-    refetchInterval: 60 * 1000, // Refetch every minute
-  })
-  
-  const [data, setData] = useState<KlineData[]>([])
-  
-  // Set initial data from the query result
   useEffect(() => {
-    if (rawData) {
-      setData(rawData)
-    }
-  }, [rawData])
-  
-  // Set up WebSocket for real-time updates
-  useEffect(() => {
-    // Don't set up WebSocket if we don't have initial data yet
-    if (!rawData || rawData.length === 0) return
+    let ws: WebSocket | null = null;
     
-    const ws = websocketStreams.subscribeToKlines(symbol, interval, (wsData) => {
-      const { k } = wsData
-      if (!k) return
-      
-      // Create a new candle object from the WebSocket data
-      const newCandle: KlineData = {
-        time: k.t / 1000,
-        open: parseFloat(k.o),
-        high: parseFloat(k.h),
-        low: parseFloat(k.l),
-        close: parseFloat(k.c),
-        volume: parseFloat(k.v)
+    async function init() {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        // -----------------------------
+        // 1) REST로 과거 봉 데이터 가져오기
+        // -----------------------------
+        const res = await fetch(
+          `https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}&interval=${interval}&limit=${limit}`
+        );
+        if (!res.ok) {
+          throw new Error(`Failed to fetch klines for ${symbol}`);
+        }
+        const data = await res.json();
+        // data 구조: [ [openTime, open, high, low, close, volume, ...], ... ]
+        
+        const initialCandles: CandleData[] = data.map((k: any) => {
+          const [openTime, o, h, l, c, v] = k;
+          return {
+            time: openTime / 1000, // ms -> 초 단위
+            open: parseFloat(o),
+            high: parseFloat(h),
+            low: parseFloat(l),
+            close: parseFloat(c),
+            volume: parseFloat(v),
+          };
+        });
+        setCandles(initialCandles);
+        
+        // -----------------------------
+        // 2) WebSocket 실시간 업데이트
+        // -----------------------------
+        ws = new WebSocket(
+          `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@kline_${interval}`
+        );
+        
+        ws.onopen = () => {
+          console.log(`Kline WebSocket connected: ${symbol}, ${interval}`);
+        };
+        
+        ws.onmessage = (evt) => {
+          try {
+            const msg = JSON.parse(evt.data);
+            // 예) { e: "kline", E: ..., s: "BTCUSDT", k: {...} }
+            if (msg.e === "kline" && msg.k) {
+              const k = msg.k;
+              // 진행 중인 봉 (time이 같으면 교체, 크면 새 봉)
+              const newCandle: CandleData = {
+                time: k.t / 1000,
+                open: parseFloat(k.o),
+                high: parseFloat(k.h),
+                low: parseFloat(k.l),
+                close: parseFloat(k.c),
+                volume: parseFloat(k.v),
+              };
+              
+              setCandles((prev) => {
+                if (prev.length === 0) return [newCandle];
+                
+                const last = prev[prev.length - 1];
+                if (last.time === newCandle.time) {
+                  // time이 동일 => 기존 봉 업데이트
+                  const updated = [...prev];
+                  updated[updated.length - 1] = newCandle;
+                  return updated;
+                } else if (newCandle.time > last.time) {
+                  // 새 봉
+                  return [...prev, newCandle];
+                }
+                // 그 외(시간 역행 등) => 무시
+                return prev;
+              });
+            }
+          } catch (err) {
+            console.error("WebSocket parse error:", err);
+          }
+        };
+        
+        ws.onerror = (err) => {
+          console.error("WebSocket error:", err);
+          setError("WebSocket error");
+        };
+        
+        ws.onclose = () => {
+          console.log("Kline WebSocket closed");
+        };
+      } catch (err: any) {
+        console.error("Failed to init chart data:", err);
+        setError(err.message || "Failed to load chart data");
+      } finally {
+        setIsLoading(false);
       }
-      
-      // Update the local state
-      setData(prevData => {
-        // First, make a copy of the current data
-        const updatedData = [...prevData]
-        
-        // Find if we already have a candle with this timestamp
-        const existingIndex = updatedData.findIndex(
-          candle => candle.time === newCandle.time
-        )
-        
-        if (existingIndex !== -1) {
-          // Update existing candle
-          updatedData[existingIndex] = newCandle
-        } else {
-          // Add new candle and keep array sorted
-          updatedData.push(newCandle)
-          updatedData.sort((a, b) => a.time - b.time)
-          
-          // Keep array at the specified limit
-          if (updatedData.length > limit) {
-            updatedData.shift() // Remove oldest candle
-          }
-        }
-        
-        return updatedData
-      })
-      
-      // Also update the query cache with the latest data
-      queryClient.setQueryData(['klines', symbol, interval, limit], (oldData: KlineData[] = []) => {
-        const updatedData = [...oldData]
-        const existingIndex = updatedData.findIndex(
-          candle => candle.time === newCandle.time
-        )
-        
-        if (existingIndex !== -1) {
-          updatedData[existingIndex] = newCandle
-        } else {
-          updatedData.push(newCandle)
-          updatedData.sort((a, b) => a.time - b.time)
-          
-          if (updatedData.length > limit) {
-            updatedData.shift()
-          }
-        }
-        
-        return updatedData
-      })
-    })
-    
-    // Clean up WebSocket on unmount
-    return () => {
-      if (ws) ws.close()
     }
-  }, [symbol, interval, limit, rawData, queryClient])
+    
+    init();
+    
+    // 컴포넌트 언마운트 시 WebSocket 정리
+    return () => {
+      if (ws) {
+        ws.close();
+        ws = null;
+      }
+    };
+  }, [symbol, interval, limit]);
   
-  return {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch
-  }
+  return { candles, isLoading, error };
 }
-
-export default useChartData

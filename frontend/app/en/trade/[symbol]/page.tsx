@@ -9,11 +9,11 @@ export default async function TradePage({params}: { params: Promise<{symbol: str
 
   return (
     <div className="flex justify-between">
-      <OrderBook symbol={symbol}/>
+      {/*<OrderBook symbol={symbol}/>*/}
       
       <Chart symbol={symbol} />
       
-      <Search />
+      {/*<Search />*/}
     </div>
   );
 }

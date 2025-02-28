@@ -11,9 +11,7 @@ import {transformKlineToChartData} from "@/lib/utils";
 export const Chart = async ({symbol}: {symbol: string}) => {
   
   const historicalKlinesData = await binanceApi.getKlines(symbol, KLINE_INTERVALS.DAY, 90);
-  
   const historicalChartData = historicalKlinesData.map((klinesData: Kline[]) => transformKlineToChartData(klinesData))
-  // const historicalChartData = transformKlineToChartData(historicalKlinesData);
   
   return (
     <SectionLayout
