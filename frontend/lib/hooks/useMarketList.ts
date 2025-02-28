@@ -35,14 +35,14 @@ interface TickerData {
  */
 export function useMarketList(options: UseMarketListOptions = {}) {
   const [markets, setMarkets] = useState<MarketItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const { quoteAsset = 'USDT', onlyFavorites = false } = options;
   
   useEffect(() => {
     const fetchMarkets = async () => {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
       
       try {
@@ -98,7 +98,7 @@ export function useMarketList(options: UseMarketListOptions = {}) {
         console.error('마켓 목록 가져오기 오류:', err);
         setError(err.message || '마켓 목록을 가져오는 중 오류가 발생했습니다.');
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     
@@ -133,7 +133,7 @@ export function useMarketList(options: UseMarketListOptions = {}) {
   
   return {
     markets,
-    loading,
+    isLoading,
     error,
     toggleFavorite
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import {Search} from "@/components/search/Search";
-import {OrderBook} from "@/components/orderBook/OrderBook";
+import {OrderBookContainer} from "@/components/orderBook/OrderBookContainer";
 import {Chart} from "@/components/chart/Chart";
 
 // next.js 15 버전에 동적 라우팅 방식이 변경된 바가 있음
@@ -9,7 +9,7 @@ export default async function TradePage({params}: { params: Promise<{symbol: str
 
   return (
     <div className="flex justify-between">
-      <OrderBook symbol={symbol}/>
+      <OrderBookContainer symbol={symbol}/>
       
       <Chart symbol={symbol} />
       

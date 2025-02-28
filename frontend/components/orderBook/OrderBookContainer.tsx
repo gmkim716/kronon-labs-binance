@@ -7,13 +7,13 @@ import {SectionTitle} from "@/components/layout/SectionTitle";
 import {SectionHeaderLayout} from "@/components/layout/SectionHeaderLayout";
 import {SectionContentLayout} from "@/components/layout/SectionContentLayout";
 
-export const OrderBook = ({symbol}: OrderBookProps) => {
+export const OrderBookContainer = ({symbol}: OrderBookProps) => {
 
   return (
     <SectionLayout
       header={
         <SectionHeaderLayout>
-          <SectionTitle title="OrderBook" />
+          <SectionTitle title="OrderBookContainer" />
         </SectionHeaderLayout>
       }
       content={

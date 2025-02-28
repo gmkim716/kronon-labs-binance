@@ -20,7 +20,7 @@ SSR 컴포넌트에서의 fetch와 tanstack query의 사용법 분리에 대해 
 
 ## 구현 목표
 
-### 호가창 (OrderBook.tsx)
+### 호가창 (OrderBookContainer.tsx)
 
 
 ### 캔들 차트 (Chart.tsx)
@@ -34,3 +34,6 @@ SSR 컴포넌트에서의 fetch와 tanstack query의 사용법 분리에 대해 
   - orderbook에 사용되는 API 훅과, chart에 사용되는 API 훅이 다르기 때문에, 현재가격이 일부 동일하지 않을 수 있습니다 
 
 ### 검색 (Search.tsx)
+
+- 검색어 상태 관리를 위해 useSearchStore 사용으로 진행했었는데, React Hook Form에서 제공하는 useForm 사용이 더 간결하고, 제어하기 쉽기 때문에 변경
+- 
