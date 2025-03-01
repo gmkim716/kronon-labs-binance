@@ -12,11 +12,10 @@ import {
 } from "lightweight-charts";
 import {useChart} from "@/lib/hooks/useChart";
 import {COLOR, DATA_LIMIT} from "@/lib/constants";
-import {Chart, ChartPoint} from "@/components/chart/types";
 import {OHLCInfo} from "@/components/chart/OHLCInfo";
+import {Chart, ChartPoint} from "@/types/chart";
 
 
-// 계산함수 분리
 const generateVolumeData = (candles: Chart) => {
   return candles.map(item => ({
     time: item.time,
@@ -24,7 +23,6 @@ const generateVolumeData = (candles: Chart) => {
     color: item.close >= item.open ? COLOR.BUY_COLOR : COLOR.SELL_COLOR
   }));
 };
-
 
 export const CandleChart = ({  symbol, interval }: { symbol: string, interval: string }) => {
   
@@ -49,12 +47,10 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
   
   useEffect(() => {
     if (chartContainerRef.current && candles && candles.length > 0) {
-      // 기존 차트 정리
       if (chartRef.current) {
         chartRef.current.remove();
       }
       
-      // 차트 생성
       const chart = createChart(chartContainerRef.current, {
         width: 600,
         height: 600,
@@ -101,7 +97,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
       
       chartRef.current = chart;
       
-      // 캔들스틱 시리즈 추가
       const candleSeries = chart.addSeries(CandlestickSeries,{
         upColor: COLOR.BUY_COLOR,
         downColor: COLOR.SELL_COLOR,
@@ -113,7 +108,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
       
       candleSeries.setData(candles);
 
-      // 거래량 차트 추가 (메인 차트 아래에)
       const volumeSeries = chart.addSeries(HistogramSeries, {
         color: '#26A69A',
         priceFormat: {
@@ -125,7 +119,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
       const volumeData = generateVolumeData(candles);
       volumeSeries.setData(volumeData);
 
-      // 볼륨 스케일 설정
       chart.priceScale('volume').applyOptions({
         scaleMargins: {
           top: 0.8,
@@ -133,7 +126,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
         },
       });
 
-      // 초기 OHLC 정보 설정 (마지막 데이터)
       if (candles.length > 0) {
         const lastData = candles[candles.length - 1];
         const change = lastData.close - lastData.open;
@@ -152,7 +144,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
         });
       }
 
-      // 크로스헤어 이동 시 OHLC 정보 업데이트
       chart.subscribeCrosshairMove((param) => {
         if (
           param.time !== undefined &&
@@ -180,10 +171,8 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
         }
       });
 
-      // 차트 콘텐츠에 맞게 조정
       chart.timeScale().fitContent();
 
-      // 윈도우 리사이즈 처리
       const handleResize = () => {
         if (chartContainerRef.current && chartRef.current) {
           const width = chartContainerRef.current.clientWidth;
@@ -194,7 +183,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
 
       window.addEventListener('resize', handleResize);
 
-      // 컴포넌트 언마운트 시 이벤트 리스너 및 차트 정리
       return () => {
         window.removeEventListener('resize', handleResize);
         if (chartRef.current) {

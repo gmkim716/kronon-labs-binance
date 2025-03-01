@@ -3,7 +3,6 @@ import {MarketItem, UseMarketListOptions} from "@/types/market";
 import {TickerData} from "@/types/ticker";
 
 export const fetchMarkets = async ({ quoteAsset="USDT", onlyFavorites }: UseMarketListOptions) => {
-  // 티커 정보 가져오기
   const tickerResponse = await fetch(`${BINANCE_URL}/ticker/24hr`);
   if (!tickerResponse.ok) {
     throw new Error(`마켓 정보를 가져오는데 실패했습니다: ${tickerResponse.status}`);
@@ -13,7 +12,6 @@ export const fetchMarkets = async ({ quoteAsset="USDT", onlyFavorites }: UseMark
   
   let favorites = [];
   if (typeof window !== 'undefined') {
-    // 클라이언트 사이드일 때만 localStorage 접근
     favorites = JSON.parse(localStorage.getItem('favoriteMarkets') || '[]');
   }
   
@@ -35,10 +33,8 @@ export const fetchMarkets = async ({ quoteAsset="USDT", onlyFavorites }: UseMark
         isFavorite: favorites.includes(ticker.symbol)
       };
     })
-    // 가격 변동률로 정렬 (선택사항)
     .sort((a: MarketItem, b: MarketItem) => b.priceChangePercent - a.priceChangePercent);
   
-  // 즐겨찾기 필터링
   return onlyFavorites
     ? processedMarkets.filter((m: MarketItem) => m.isFavorite)
     : processedMarkets;

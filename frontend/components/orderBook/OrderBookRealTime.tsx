@@ -1,13 +1,9 @@
 'use client'
 
-interface OrderBookRealTimeProps {
-  priceDirection: 'up' | 'down' | null,
-  price: number,
-}
+import {OrderBookRealTimeProps} from "@/types/orderbook";
 
 export const OrderBookRealTime = ({priceDirection, price}: OrderBookRealTimeProps) => {
   
-  // 색상 표시
   let colorClass = 'text-white';
   if (priceDirection === 'up') {
     colorClass = 'text-green-500';

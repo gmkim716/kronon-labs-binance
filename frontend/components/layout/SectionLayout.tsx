@@ -1,4 +1,4 @@
-import {SectionLayoutProps} from "@/components/layout/types";
+import {SectionLayoutProps} from "@/types/layout";
 
 export const SectionLayout = ({ header, content, className }: SectionLayoutProps) => {
   return (

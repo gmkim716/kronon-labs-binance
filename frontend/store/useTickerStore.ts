@@ -1,5 +1,5 @@
 import {create} from "zustand/react";
-import {TickerStore} from "@/components/orderBook/types";
+import {TickerStore} from "@/types/orderbook";
 
 export const useTickerStore = create<TickerStore>((set) => ({
   ticker: {},

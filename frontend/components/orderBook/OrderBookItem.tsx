@@ -1,12 +1,6 @@
 import {formatNumber} from "@/lib/utils";
-import {OrderBookItemProps} from "@/components/orderBook/types";
+import {OrderBookItemProps} from "@/types/orderbook";
 
-/**
- * todo list
- * 1. total 단위가 클 때, K, M등 단위를 붙여야 함
- * 2. price: 소수점 2자리, amount: 소수점 5자리, total: 소수점 5자리
- * 3. price가 bids/asks 색상 다르게 표현, bid: 매수, 초록색, ask: 매도, 빨간색
- */
 export const OrderBookItem = ({price, amount, total, type}: OrderBookItemProps) => {
   
   // 단위 변환

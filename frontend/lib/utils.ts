@@ -18,10 +18,10 @@ export const formatNumber = (num: number, precision: number = 5) => {
   return num.toFixed(precision);
 };
 
-// symbol을 UpperCase로 변경
-export const formatSymbol = (symbol: string): string => {
-  return symbol.toUpperCase()
-}
+// // symbol을 UpperCase로 변경
+// export const formatSymbol = (symbol: string): string => {
+//   return symbol.toUpperCase()
+// }
 
 
 // timestamp를 'yyyy-MM-dd' 형태로 변환
@@ -31,26 +31,26 @@ export const formatSymbol = (symbol: string): string => {
 // }
 
 
-// Array 형태로 전달되는 Kline 데이터를 tradingView lightweight에 적합한 형태로 반환합니다
-export const transformKlineToChartData = (kline: any[]): {
-  time: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume?: number;
-} => {
-  const [timeMs, open, high, low, close, volume] = kline;
-  
-  // 밀리초를 'YYYY-MM-DD' 문자열로 변환
-  const dateString = new Date(timeMs).toISOString().split('T')[0];
-  
-  return {
-    time: dateString,
-    open: parseFloat(open),
-    high: parseFloat(high),
-    low: parseFloat(low),
-    close: parseFloat(close),
-    volume: parseFloat(volume),
-  };
-};
+// // Array 형태로 전달되는 Kline 데이터를 tradingView lightweight에 적합한 형태로 반환합니다
+// export const transformKlineToChartData = (kline: any[]): {
+//   time: string;
+//   open: number;
+//   high: number;
+//   low: number;
+//   close: number;
+//   volume?: number;
+// } => {
+//   const [timeMs, open, high, low, close, volume] = kline;
+//
+//   // 밀리초를 'YYYY-MM-DD' 문자열로 변환
+//   const dateString = new Date(timeMs).toISOString().split('T')[0];
+//
+//   return {
+//     time: dateString,
+//     open: parseFloat(open),
+//     high: parseFloat(high),
+//     low: parseFloat(low),
+//     close: parseFloat(close),
+//     volume: parseFloat(volume),
+//   };
+// };

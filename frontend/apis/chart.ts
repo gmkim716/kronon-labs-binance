@@ -4,7 +4,6 @@ import { BINANCE_URL } from "@/lib/constants";
 import { CandleData } from "@/types/chart";
 import { Time } from "lightweight-charts";
 
-
 export async function fetchCandleData(
   symbol: string,
   interval: string,

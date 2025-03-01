@@ -1,4 +1,4 @@
-import {OHLCProps} from "@/components/chart/types";
+import {OHLCProps} from "@/types/chart";
 
 export const OHLCInfo = ({ currentOHLC, dateStr }: {currentOHLC:OHLCProps, dateStr: string}) => {
 
