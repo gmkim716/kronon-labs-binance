@@ -110,31 +110,9 @@ export function useMarketList(options: UseMarketListOptions = {}) {
     return () => clearInterval(intervalId);
   }, [quoteAsset, onlyFavorites]);
   
-  // 즐겨찾기 토글 함수
-  const toggleFavorite = (symbol: string) => {
-    const favorites = JSON.parse(localStorage.getItem('favoriteMarkets') || '[]');
-    
-    let newFavorites;
-    if (favorites.includes(symbol)) {
-      newFavorites = favorites.filter((s: string) => s !== symbol);
-    } else {
-      newFavorites = [...favorites, symbol];
-    }
-    
-    localStorage.setItem('favoriteMarkets', JSON.stringify(newFavorites));
-    
-    // 마켓 리스트 업데이트
-    setMarkets(markets.map(market =>
-      market.symbol === symbol
-        ? { ...market, isFavorite: !market.isFavorite }
-        : market
-    ));
-  };
-  
   return {
     markets,
     isLoading,
     error,
-    toggleFavorite
   };
 }

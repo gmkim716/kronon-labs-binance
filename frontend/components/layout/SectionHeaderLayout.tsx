@@ -1,8 +1,8 @@
 import React from "react";
 
-export const SectionHeaderLayout = ({children}: {children: React.ReactNode}) => {
+export const SectionHeaderLayout = ({children, className}: {children: React.ReactNode, className?: string}) => {
   return (
-    <div>
+    <div className={`${className}`}>
       {children}
     </div>
   )

@@ -223,15 +223,3 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
   );
 };
 
-
-//
-// function formatTime(time: Time): string {
-//   if (typeof time === 'number') {
-//     // 초 단위 timestamp를 Date 객체로 변환 후 포맷
-//     return format(new Date(time * 1000), 'yyyy-MM-dd HH:mm');
-//   } else {
-//     // BusinessDay 타입인 경우, month는 1부터 시작하지만 Date에서는 0부터 시작하므로 주의
-//     const { year, month, day } = time;
-//     return format(new Date(year, month - 1, day), 'yyyy-MM-dd');
-//   }
-// }

@@ -18,7 +18,7 @@ export const OrderBookItem = ({price, amount, total, type}: OrderBookItemProps) 
   const colorClass = type === "bids" ?  'text-green-500': 'text-red-500';
   
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 text-xs">
       <div className={`text-left ${colorClass}`}>
         {fPrice}
       </div>

@@ -12,18 +12,24 @@ export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceCha
   const favorite = isFavorite ? '★' : '☆';
   const badge = leverage && <div className="border border-blue-800 bg-blue-950">{leverage}%</div>
   
-  // todo: 좋아요 표시에 대해서 react query 적용할게 있을 것
+  let priceChangeColor = '';
+  if (priceChangePercent > 0) {
+    priceChangeColor = 'text-green-500';
+  } else if (priceChangePercent < 0) {
+    priceChangeColor = 'text-red-500';
+  }
   
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 text-xs p-0.5">
       <div className="flex">
         <span>{favorite}</span>
         <span>{baseAsset}</span>
         {badge}
       </div>
-      <div>{lastPrice}</div>
-      <div>{priceChangePercent}%</div>
-      {/*<div>{volume}</div>*/}
+      <div className="text-right">{lastPrice}</div>
+      <div className={`text-right ${priceChangeColor}`}>
+        {priceChangePercent.toFixed(2)}%
+      </div>
     </div>
   )
 }

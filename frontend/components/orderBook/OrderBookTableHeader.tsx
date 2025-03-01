@@ -1,6 +1,6 @@
 export const OrderBookTableHeader = () => {
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 text-xs py-2">
       <div className="text-left text-gray-400">
         Price (USDT)
       </div>

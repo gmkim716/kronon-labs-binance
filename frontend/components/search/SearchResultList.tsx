@@ -3,6 +3,7 @@
 import {useMarketList} from "@/lib/hooks/useMarketList";
 import {SearchItem} from "@/components/search/SearchItem";
 import {useSearchStore} from "@/components/search/useSearchStore";
+import Link from "next/link";
 
 export const SearchResultList = () => {
   
@@ -22,15 +23,17 @@ export const SearchResultList = () => {
   return (
     <div>
       {filteredResults.map((item, index) => (
-        <SearchItem
-          key={index}
-          baseAsset={item.baseAsset}
-          isFavorite={item.isFavorite}
-          leverage={item.leverage}
-          lastPrice={item.lastPrice}
-          priceChangePercent={item.priceChangePercent}
-          volume={item.volume}
-        />
+        <Link href={`/en/trade/${item.baseAsset}USDT`} >
+          <SearchItem
+            key={index}
+            baseAsset={item.baseAsset}
+            isFavorite={item.isFavorite}
+            leverage={item.leverage}
+            lastPrice={item.lastPrice}
+            priceChangePercent={item.priceChangePercent}
+            volume={item.volume}
+          />
+        </Link>
       ))}
     </div>
   )

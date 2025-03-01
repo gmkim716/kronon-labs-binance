@@ -18,9 +18,9 @@ export const OrderBookRealTime = ({priceDirection, price}: OrderBookRealTimeProp
   const marker = priceDirection === 'up' ?  '⬆' : '⬇';
   
   return (
-    <div className={`flex items-center ${colorClass}`}>
-      <div className="text-3xl font-bold">{price} {marker}</div>
-      <div className="text-gray-500">${price}</div>
+    <div className={`flex items-center ${colorClass} gap-2`}>
+      <div className="text-xl">{price} {marker}</div>
+      <div className="text-gray-500 text-xs">${price}</div>
     </div>
   )
 }

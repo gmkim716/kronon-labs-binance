@@ -9,15 +9,9 @@ export default async function TradePage({params}: { params: Promise<{symbol: str
   const { symbol } = await params;
 
   return (
-    <div className="flex justify-between">
-      <Suspense fallback={<div className="animate-pulse h-full w-full bg-gray-200">OrderBook 로딩 중...</div>}>
-        <OrderBook symbol={symbol} />
-      </Suspense>
-      
-      <Suspense fallback={<div className="animate-pulse h-full w-full bg-gray-200">Chart 로딩 중...</div>}>
-        <Chart symbol={symbol} />
-      </Suspense>
-      
+    <div className="flex">
+      <OrderBook symbol={symbol} />
+      <Chart symbol={symbol} />
       <Search />
     </div>
   );
