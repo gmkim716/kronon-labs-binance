@@ -29,7 +29,7 @@ const generateVolumeData = (candles: Chart) => {
 export const CandleChart = ({  symbol, interval }: { symbol: string, interval: string }) => {
   
   // REST + WebSocket으로 봉 데이터 가져오는 훅
-  const { candles, isLoading, error } = useChartData(symbol, interval, 100);
+  const { candles } = useChartData(symbol, interval, 100);
   
   // 참조(차트 개체, DOM 컨테이너 등)
   const chartContainerRef = useRef<HTMLDivElement>(null);

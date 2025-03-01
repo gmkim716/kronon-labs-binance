@@ -7,7 +7,7 @@ import {useSearchStore} from "@/components/search/useSearchStore";
 export const SearchResultList = () => {
   
   // 검색어가 없을 때, 거래 종목들을 보여주기 위한 초기 데이터 리스트 호출
-  const {markets, isLoading, error} = useMarketList()
+  const {markets} = useMarketList()
   
   // searchStore에서 관리되는 검색어 가져오기
   const {searchQuery} = useSearchStore()

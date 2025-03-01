@@ -25,10 +25,10 @@ export const formatSymbol = (symbol: string): string => {
 
 
 // timestamp를 'yyyy-MM-dd' 형태로 변환
-const formatTimestampToDate = (klineTime: number) => {
-  const date = new Date(klineTime);
-  return date.toISOString().split("T")[0];
-}
+// const formatTimestampToDate = (klineTime: number) => {
+//   const date = new Date(klineTime);
+//   return date.toISOString().split("T")[0];
+// }
 
 
 // Array 형태로 전달되는 Kline 데이터를 tradingView lightweight에 적합한 형태로 반환합니다

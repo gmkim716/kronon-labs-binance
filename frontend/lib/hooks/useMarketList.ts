@@ -51,8 +51,8 @@ export function useMarketList(options: UseMarketListOptions = {}) {
         const tickerData = await tickerResponse.json();
         
         // 익스체인지 정보 가져오기 (심볼 메타데이터)
-        const exchangeInfoResponse = await fetch(`${BINANCE_URL}/exchangeInfo`);
-        const exchangeInfo = await exchangeInfoResponse.json();
+        // const exchangeInfoResponse = await fetch(`${BINANCE_URL}/exchangeInfo`);
+        // const exchangeInfo = await exchangeInfoResponse.json();
         
         // 즐겨찾기 목록 로컬 스토리지에서 가져오기
         const favorites = JSON.parse(localStorage.getItem('favoriteMarkets') || '[]');

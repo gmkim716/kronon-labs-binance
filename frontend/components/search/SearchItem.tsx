@@ -7,7 +7,7 @@ interface SearchItemProps {
   volume?: number;
 }
 
-export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceChangePercent, volume}: SearchItemProps) => {
+export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceChangePercent}: SearchItemProps) => {
   
   const favorite = isFavorite ? '★' : '☆';
   const badge = leverage && <div className="border border-blue-800 bg-blue-950">{leverage}%</div>
