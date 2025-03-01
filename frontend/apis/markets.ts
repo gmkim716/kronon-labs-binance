@@ -1,11 +1,6 @@
 import {BINANCE_URL} from "@/lib/constants";
-import {TickerData} from "@/lib/hooks/useTicker";
-import {MarketItem} from "@/types/market";
-
-export interface UseMarketListOptions {
-  quoteAsset?: string;
-  onlyFavorites?: boolean;
-}
+import {MarketItem, UseMarketListOptions} from "@/types/market";
+import {TickerData} from "@/types/ticker";
 
 export const fetchMarkets = async ({ quoteAsset="USDT", onlyFavorites }: UseMarketListOptions) => {
   // 티커 정보 가져오기

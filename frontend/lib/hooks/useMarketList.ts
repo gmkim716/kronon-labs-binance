@@ -1,8 +1,8 @@
 'use client';
 
 import {useQuery} from "@tanstack/react-query";
-import {fetchMarkets, UseMarketListOptions} from "@/apis/markets";
-import {MarketItem} from "@/types/market";
+import {fetchMarkets, } from "@/apis/markets";
+import {MarketItem, UseMarketListOptions} from "@/types/market";
 
 export function useMarketList(options: UseMarketListOptions = {}) {
   const { quoteAsset = 'USDT', onlyFavorites = false } = options;

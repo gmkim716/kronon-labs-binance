@@ -29,3 +29,6 @@ export enum COLOR {
    BUY_COLOR = "#2EBD85",
    SELL_COLOR = "#F6465D"
 }
+
+// 그래프 데이터 개수
+export const DATA_LIMIT = 100;

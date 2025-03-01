@@ -16,3 +16,9 @@ export interface OrderBookData {
 export interface UseOrderBookOptions {
   depth?: number;  // 주문장 깊이: 5, 10, 20
 }
+
+export interface UseOrderBookWebSocketOptions {
+  symbol: string;
+  depth: number;
+  enabled?: boolean;
+}

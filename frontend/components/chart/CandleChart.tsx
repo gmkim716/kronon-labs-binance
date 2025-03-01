@@ -10,8 +10,8 @@ import {
   LineStyle,
   PriceScaleMode
 } from "lightweight-charts";
-import {useChartData} from "@/lib/hooks/useChartData";
-import {COLOR} from "@/lib/constants";
+import {useChart} from "@/lib/hooks/useChart";
+import {COLOR, DATA_LIMIT} from "@/lib/constants";
 import {Chart, ChartPoint} from "@/components/chart/types";
 import {OHLCInfo} from "@/components/chart/OHLCInfo";
 
@@ -28,14 +28,11 @@ const generateVolumeData = (candles: Chart) => {
 
 export const CandleChart = ({  symbol, interval }: { symbol: string, interval: string }) => {
   
-  // REST + WebSocket으로 봉 데이터 가져오는 훅
-  const { candles } = useChartData(symbol, interval, 100);
+  const { candles } = useChart(symbol, interval, DATA_LIMIT);
   
-  // 참조(차트 개체, DOM 컨테이너 등)
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<ReturnType<typeof createChart> | null>(null);
   
-  // OHLC 상태
   const [currentOHLC, setCurrentOHLC] = useState({
     time: '',
     open: 0,
@@ -47,7 +44,6 @@ export const CandleChart = ({  symbol, interval }: { symbol: string, interval: s
     amplitude: 0
   });
   
-  // 오늘 날짜 계산
   const currentDate = new Date();
   const dateStr = `${currentDate.getFullYear()}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/${String(currentDate.getDate()).padStart(2, '0')}`;
   

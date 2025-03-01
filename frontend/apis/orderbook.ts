@@ -1,5 +1,3 @@
-
-// 초기 주문장 스냅샷을 가져오는 함수
 import {BINANCE_URL} from "@/lib/constants";
 import {OrderItem} from "@/types/orderbook";
 
@@ -30,11 +28,9 @@ export const fetchOrderBookSnapshot = async (symbol: string, depth: number): Pro
     total: parseFloat(ask[0]) * parseFloat(ask[1])
   }));
   
-  // 수량 합산
   const totalBidsAmount = processedBids.reduce((sum: number, bid:OrderItem) => sum + bid.amount, 0);
   const totalAsksAmount = processedAsks.reduce((sum: number, ask:OrderItem) => sum + ask.amount, 0);
   
-  // 비율 계산 (매수 비율을 0-100% 사이로 표현)
   const bidRatio = totalBidsAmount / (totalBidsAmount + totalAsksAmount) * 100;
   
   return {

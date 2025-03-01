@@ -1,4 +1,3 @@
-// 마켓 항목 타입 정의
 export interface MarketItem {
   symbol: string;         // 심볼 (BTCUSDT)
   baseAsset: string;      // 기초 자산 (BTC)
@@ -8,4 +7,9 @@ export interface MarketItem {
   leverage?: string;      // 레버리지 (5x)
   isFavorite?: boolean;   // 즐겨찾기 여부
   volume?: number;  // 야
+}
+
+export interface UseMarketListOptions {
+  quoteAsset?: string;
+  onlyFavorites?: boolean;
 }

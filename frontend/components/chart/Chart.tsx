@@ -4,6 +4,7 @@ import {SectionHeaderLayout} from "@/components/layout/SectionHeaderLayout";
 import {SectionContentLayout} from "@/components/layout/SectionContentLayout";
 import React from "react";
 import {SectionTitle} from "@/components/layout/SectionTitle";
+import {KLINE_INTERVALS} from "@/lib/constants";
 
 export const Chart = async ({symbol}: {symbol: string}) => {
   
@@ -16,7 +17,7 @@ export const Chart = async ({symbol}: {symbol: string}) => {
       }
       content={
         <SectionContentLayout>
-          <CandleChart symbol={symbol} interval="1m"/>
+          <CandleChart symbol={symbol} interval={KLINE_INTERVALS.DAY}/>
         </SectionContentLayout>
       }
     />

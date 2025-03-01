@@ -1,11 +1,4 @@
-interface SearchItemProps {
-  baseAsset: string;
-  isFavorite?: boolean;
-  lastPrice: number;
-  leverage?: string;
-  priceChangePercent: number;
-  volume?: number;
-}
+import {SearchItemProps} from "@/types/search";
 
 export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceChangePercent}: SearchItemProps) => {
   
