@@ -1,14 +1,15 @@
 # Binance API를 이용한 코인 거래 창 구성하기 
 
-## 주요 구현 목표 
+- Web 개발을 진행합니다
+- Mobile의 경우 학습을 위해 개별적으로 추가 진행합니다
+
+## 주요 구현 목표 (Web)
 
 - 코인 상품 검색, 리스트 
 - 호가 창
 - 코인 그래프
 
 참고: https://www.binance.com/en/trade/BTC_USDT?type=spot
-
-## 
 
 ## 후기
 
