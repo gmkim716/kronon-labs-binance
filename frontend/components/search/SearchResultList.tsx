@@ -18,7 +18,7 @@ export const SearchResultList = () => {
   ) ?? [];
   
   return (
-    <div className="bg-[#1E1E1E] border border-[#333] rounded overflow-hidden">
+    <div className="bg-[#1E1E1E] rounded overflow-hidden">
       <div className="max-h-[700px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {filteredResults.map((item, index) => (
         <Link key={index} href={`/en/trade/${item.baseAsset}USDT`}>
