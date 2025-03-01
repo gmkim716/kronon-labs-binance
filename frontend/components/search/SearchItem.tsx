@@ -21,14 +21,14 @@ export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceCha
   
   return (
     <div className="grid grid-cols-3 text-xs py-0.5">
-      <div className="flex">
+      <div className="flex gap-1">
         <span>{favorite}</span>
         <span>{baseAsset}</span>
         {badge}
       </div>
       <div className="text-right">{lastPrice}</div>
       <div className={`text-right ${priceChangeColor}`}>
-        {priceChangePercent.toFixed(2)}%
+        {priceChangePercent}%
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ export default function TradeLayout({
                                       chart,
                                       search,
                                     }: {
+  children: ReactNode;
   orderBook: ReactNode;
   chart: ReactNode;
   search: ReactNode;

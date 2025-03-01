@@ -13,12 +13,11 @@ export interface Kline {
   ignore: string;              // 무시할 필드 ??
 }
 
-// export interface KlineResponse {
-//   symbol: string;            // 심볼 (예: 'BTCUSDT')
-//   interval: string;          // 시간 간격 (예: '1m', '5m', '1h' 등)
-//   klines: Kline[];           // Kline 데이터 배열
-// }
-
+export interface KlineResponse {
+  symbol: string;            // 심볼 (예: 'BTCUSDT')
+  interval: string;          // 시간 간격 (예: '1m', '5m', '1h' 등)
+  klines: Kline[];           // Kline 데이터 배열
+}
 
 interface ChartDataPoint {
   time: string;  // 'YYYY-MM-DD' 형식의 날짜 문자열

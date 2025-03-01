@@ -1,12 +1,13 @@
 'use client'
 
-import {useOrderBook} from "@/lib/hooks/useOrderBook";
-import React, {useEffect, useState} from "react";
+import { useOrderBook} from "@/lib/hooks/useOrderBook";
+import React from "react";
 import {OrderBookItem} from "@/components/orderBook/OrderBookItem";
 import {OrderBookCompare} from "@/components/orderBook/OrderBookCompare";
 import {useTicker} from "@/lib/hooks/useTicker";
 import {OrderBookRealTime} from "@/components/orderBook/OrderBookRealTime";
-import {ORDER_BOOK_DEPTH} from "../../lib/constants";
+import {OrderItem} from "@/types/orderbook";
+import {ORDER_BOOK_DEPTH} from "@/lib/constants";
 
 export const OrderBookContent = ({symbol}: {symbol: string}) => {
   
@@ -16,7 +17,7 @@ export const OrderBookContent = ({symbol}: {symbol: string}) => {
   return (
     <div>
       {/* ask: 매도*/}
-      {asks.map((ask, idx) => (
+      {asks.map((ask: OrderItem, idx: number) => (
         <OrderBookItem key={idx} price={ask.price} amount={ask.amount} total={ask.total} type="asks" />
       ))}
 
@@ -24,7 +25,7 @@ export const OrderBookContent = ({symbol}: {symbol: string}) => {
       <OrderBookRealTime priceDirection={priceDirection} price={ticker.lastPrice} />
     
       {/* bids: 매수 */}
-      {bids.map((bid, idx) => (
+      {bids.map((bid: OrderItem, idx: number) => (
         <OrderBookItem key={idx} price={bid.price} amount={bid.amount} total={bid.total} type="bids" />
       ))}
       

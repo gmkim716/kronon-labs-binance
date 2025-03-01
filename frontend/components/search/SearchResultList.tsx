@@ -4,12 +4,8 @@ import {useMarketList} from "@/lib/hooks/useMarketList";
 import {SearchItem} from "@/components/search/SearchItem";
 import {useSearchStore} from "@/components/search/useSearchStore";
 import Link from "next/link";
-import {useEffect, useState} from "react";
 
 export const SearchResultList = () => {
-  
-
-  
   
   // 검색어가 없을 때, 거래 종목들을 보여주기 위한 초기 데이터 리스트 호출
   const {data: markets} = useMarketList()
@@ -23,14 +19,13 @@ export const SearchResultList = () => {
       item.baseAsset.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.symbol.toLowerCase().includes(searchQuery.toLowerCase())
   ) ?? [];
-
-  
-  
   
   return (
-    <div>
+    <div className="bg-[#1E1E1E] border border-[#333] rounded overflow-hidden">
+      {/* 결과가 없을 때도 최소 높이 유지 */}
+      <div className="max-h-[700px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {filteredResults.map((item, index) => (
-        <Link key={index} href={`/en/trade/${item.baseAsset}USDT`} >
+        <Link key={index} href={`/en/trade/${item.baseAsset}USDT`}>
           <SearchItem
             baseAsset={item.baseAsset}
             isFavorite={item.isFavorite}
@@ -41,6 +36,7 @@ export const SearchResultList = () => {
           />
         </Link>
       ))}
+      </div>
     </div>
   )
 }
