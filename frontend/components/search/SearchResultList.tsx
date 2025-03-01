@@ -4,11 +4,15 @@ import {useMarketList} from "@/lib/hooks/useMarketList";
 import {SearchItem} from "@/components/search/SearchItem";
 import {useSearchStore} from "@/components/search/useSearchStore";
 import Link from "next/link";
+import {useEffect, useState} from "react";
 
 export const SearchResultList = () => {
   
+
+  
+  
   // 검색어가 없을 때, 거래 종목들을 보여주기 위한 초기 데이터 리스트 호출
-  const {markets} = useMarketList()
+  const {data: markets} = useMarketList()
   
   // searchStore에서 관리되는 검색어 가져오기
   const {searchQuery} = useSearchStore()
@@ -19,6 +23,9 @@ export const SearchResultList = () => {
       item.baseAsset.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.symbol.toLowerCase().includes(searchQuery.toLowerCase())
   ) ?? [];
+
+  
+  
   
   return (
     <div>

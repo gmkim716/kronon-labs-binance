@@ -1,7 +1,7 @@
 'use client'
 
 import {useOrderBook} from "@/lib/hooks/useOrderBook";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {OrderBookItem} from "@/components/orderBook/OrderBookItem";
 import {OrderBookCompare} from "@/components/orderBook/OrderBookCompare";
 import {useTicker} from "@/lib/hooks/useTicker";
@@ -12,7 +12,7 @@ export const OrderBookContent = ({symbol}: {symbol: string}) => {
   
   const { bids, asks} = useOrderBook(symbol, {depth: ORDER_BOOK_DEPTH})
   const {ticker, priceDirection} = useTicker(symbol)
-  
+
   return (
     <div>
       {/* ask: 매도*/}
