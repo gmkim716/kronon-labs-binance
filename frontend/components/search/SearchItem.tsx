@@ -20,7 +20,7 @@ export const SearchItem = ({baseAsset, isFavorite, lastPrice, leverage, priceCha
   }
   
   return (
-    <div className="grid grid-cols-3 text-xs p-0.5">
+    <div className="grid grid-cols-3 text-xs py-0.5">
       <div className="flex">
         <span>{favorite}</span>
         <span>{baseAsset}</span>

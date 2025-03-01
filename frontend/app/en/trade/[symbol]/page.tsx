@@ -1,4 +1,4 @@
-import React, {Suspense} from "react";
+import React from "react";
 import {Search} from "@/components/search/Search";
 import {OrderBook} from "@/components/orderBook/OrderBook";
 import {Chart} from "@/components/chart/Chart";
