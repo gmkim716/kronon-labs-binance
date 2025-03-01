@@ -23,9 +23,8 @@ export const SearchResultList = () => {
   return (
     <div>
       {filteredResults.map((item, index) => (
-        <Link href={`/en/trade/${item.baseAsset}USDT`} >
+        <Link key={index} href={`/en/trade/${item.baseAsset}USDT`} >
           <SearchItem
-            key={index}
             baseAsset={item.baseAsset}
             isFavorite={item.isFavorite}
             leverage={item.leverage}
