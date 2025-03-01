@@ -63,7 +63,7 @@ export function useOrderBook(symbol: string, options: UseOrderBookOptions = {}) 
       
       // 연결 성공 시
       ws.current.onopen = () => {
-        console.log('OrderBookContainer WebSocket connected');
+        console.log('OrderBook WebSocket connected');
         setIsConnected(true);
         
         // 연결 후 주문장 스냅샷 요청
@@ -161,14 +161,14 @@ export function useOrderBook(symbol: string, options: UseOrderBookOptions = {}) 
       
       // 에러 발생 시
       ws.current.onerror = (error) => {
-        console.error('OrderBookContainer WebSocket error:', error);
+        console.error('OrderBook WebSocket error:', error);
         setError('주문장 데이터 연결 오류');
         setIsConnected(false);
       };
       
       // 연결 종료 시
       ws.current.onclose = () => {
-        console.log('OrderBookContainer WebSocket closed');
+        console.log('OrderBook WebSocket closed');
         setIsConnected(false);
         
         // 3초 후 재연결 시도

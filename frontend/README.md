@@ -20,7 +20,7 @@ SSR 컴포넌트에서의 fetch와 tanstack query의 사용법 분리에 대해 
 
 ## 구현 목표
 
-### 호가창 (OrderBookContainer.tsx)
+### 호가창 (OrderBook.tsx)
 
 
 ### 캔들 차트 (Chart.tsx)
