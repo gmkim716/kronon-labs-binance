@@ -2,7 +2,7 @@
 
 - Time limits: 2025-02-25 ~ 2025-03-01(5d)
 - Main stack: Next.js 15, app router
-- Libraries: tanstack query, 
+- Libraries: tanstack query, zustand, tailwind, react hook form, tradingview-lightweight
 
 ## Minimum Implement Features
 
